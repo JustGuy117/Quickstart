@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
+
 
 @TeleOp
 public class teleMain extends OpMode {
@@ -155,7 +158,7 @@ public class teleMain extends OpMode {
         if (takeIn) {
             intakePower = 0.7;
             transferPower = 0.7;
-            if (transfer.isOverCurrent() || transferStall) {
+            if (transfer.getCurrent(CurrentUnit.AMPS) > 3.5 || transferStall) {
                 transferPower = 0;
                 transferStall = true;
             }
@@ -252,7 +255,7 @@ public class teleMain extends OpMode {
         telemetry.addData("intake speed", intakePower);
         telemetry.addData("transfer speed", transferPower);
         telemetry.addLine("-----------------------------------");
-        telemetry.addData("transfer over current", transfer.isOverCurrent());
+        telemetry.addData("transfer over current", transfer.getCurrent(CurrentUnit.AMPS));
         telemetry.update();
     }
 }
