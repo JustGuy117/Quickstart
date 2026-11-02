@@ -1,3 +1,35 @@
+## 31133 Notes
+A collective way we can write code ideas and resources all in one place(the readme file). feel free to add anything you think might be useful.
+
+
+### Pedro Pathing
+ - Documentation "https://pedropathing.com/docs/pathing"
+ - Tuning Example Video "https://www.youtube.com/watch?v=YSukggRAsm4&t=923s"
+ - Coordinate system "https://pedropathing.com/docs/pathing/reference/coordinates"
+ - Visualizer "https://visualizer.pedropathing.com/"
+ - Auto Tuner "http://192.168.43.1:10158"
+
+### Other 
+ - Panels Dashboard "http://192.168.43.1:8081"
+ - FTC Dashboard "http://192.168.43.1:8080/dash" or "http://192.168.43.1:8001" idk
+ - Robot WiFi password should be "Password1" 
+ - Anything else "https://www.google.com/" (just one creative search away)
+### Other Documentations
+ - Mecanum wheel directions "https://www.gobilda.com/gripforce-mecanum-wheel-set-o104mm-40a-durometer-rollers/"
+ - Pinpoint "https://www.gobilda.com/pinpoint-v2-odometry-computer-imu-sensor-fusion-for-2-wheel-odometry/"
+ - Gobilda RGB light "https://www.gobilda.com/rgb-indicator-light-pwm-controlled/"
+### --ToDo--
+ - Figure out how to use and Auto with other Mechanisms./figure out how to use Ivy(should make it much easier)
+ - Once Pedro knows where the robot is even in teleOp, we to make class where based on the robots distance from the hive it will auto adjust it speed to hit a specific point. 
+ - Also, we need to make a class where If we tell the robot it should auto align to that point of the hive.
+ - Make a duped teleOp with field centric driving instead of robot centric.
+ - Testing the driveOrHold() method in a teleOp. 
+
+---
+---
+---
+---
+---
 ## TeamCode Module
 
 Welcome!
@@ -129,3 +161,7 @@ Note: Some names start with "Team" and others start with "team".  This is intent
 5)  Add:    include ':Team0417' to the "/settings.gradle" file.
     
 6)  Open up Android Studios and clean out any old files by using the menu to "Build/Clean Project""
+
+
+
+

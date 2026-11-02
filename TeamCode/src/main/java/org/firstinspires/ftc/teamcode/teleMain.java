@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 @TeleOp
-public class test_botMain4th2 extends OpMode {
+public class teleMain extends OpMode {
 
 
     public DcMotor b_l_drive;
@@ -18,8 +18,8 @@ public class test_botMain4th2 extends OpMode {
     public DcMotor f_l_drive;
     public DcMotor f_r_drive;
     public DcMotorEx shoota;
-    public DcMotor intake;
-    public DcMotor transfer;
+    public DcMotorEx intake;
+    public DcMotorEx transfer;
     public Servo gate;
     double vertical;
     double horizontal;
@@ -36,6 +36,8 @@ public class test_botMain4th2 extends OpMode {
     double intakePower;
     double transferPower;
     double gatePosition;
+
+    boolean transferStall;
 
 
 
@@ -76,13 +78,15 @@ public class test_botMain4th2 extends OpMode {
 
 
 
-        intake = hardwareMap.get(DcMotor.class, "intakeMotor");
+        intake = hardwareMap.get(DcMotorEx.class, "intakeMotor");
         intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
-        transfer = hardwareMap.get(DcMotor.class, "transferMotor");
+        transfer = hardwareMap.get(DcMotorEx.class, "transferMotor");
         transfer.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         transfer.setDirection(DcMotor.Direction.REVERSE);
+        transfer.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
         shoota = hardwareMap.get(DcMotorEx.class, "shoota");
@@ -151,6 +155,10 @@ public class test_botMain4th2 extends OpMode {
         if (takeIn) {
             intakePower = 0.7;
             transferPower = 0.7;
+            if (transfer.isOverCurrent() || transferStall) {
+                transferPower = 0;
+                transferStall = true;
+            }
         }
         else if (takeOut) {
             intakePower = -0.7;
@@ -159,6 +167,7 @@ public class test_botMain4th2 extends OpMode {
         else {
             intakePower = 0;
             transferPower = 0;
+            transferStall = false;
         }
 
 
@@ -243,6 +252,7 @@ public class test_botMain4th2 extends OpMode {
         telemetry.addData("intake speed", intakePower);
         telemetry.addData("transfer speed", transferPower);
         telemetry.addLine("-----------------------------------");
+        telemetry.addData("transfer over current", transfer.isOverCurrent());
         telemetry.update();
     }
 }
