@@ -76,6 +76,8 @@ public class AutoClose extends LinearOpMode {
         return sequential(
                 follow(follower, path1()),
                 shooterOn(),
+                shooterFire(),
+                shooterStop(),
                 follow(follower, path2()),
                 follow(follower, path3()),
                 follow(follower, path4())
@@ -140,13 +142,35 @@ public class AutoClose extends LinearOpMode {
     }
 
     private Command shooterOn() {
-        return run(() -> {
-            shootaPowwa = shootaSpeedy;
-            shoota.setVelocity(shootaPowwa);
-
-            transfer.setPower(1.0);
-            intake.setPower(1.0);
-        });
+        return sequential(
+                instant(() -> {
+                    shootaPowwa = shootaSpeedy;
+                    shoota.setVelocity(shootaPowwa);
+                }),
+                waitMs(2000)
+        );
+    }
+    private Command shooterFire() {
+        return sequential(
+                instant(() -> {
+                    transfer.setPower(1.0);
+                    intake.setPower(1.0);
+                    gate.setPosition(0.25);
+                }),
+                waitMs(10000)
+        );
+    }
+    private Command shooterStop() {
+        return sequential(
+                instant(() -> {
+                    shootaPowwa = 0;
+                    shoota.setVelocity(shootaPowwa);
+                    transfer.setPower(0.0);
+                    intake.setPower(0.0);
+                    gate.setPosition(0.62);
+                }),
+                waitMs(100)
+        );
     }
     public Path path2() {
         return Paths.line(point2Start, point2).linear(point2Start, point2);
