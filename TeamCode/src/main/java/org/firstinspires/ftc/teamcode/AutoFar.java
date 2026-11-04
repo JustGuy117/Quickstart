@@ -18,8 +18,31 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
+
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import com.qualcomm.robotcore.hardware.Servo;
+
+
 @Autonomous(name = "AutoPath", group = "Autonomous")
 public class AutoFar extends LinearOpMode {
+
+    public DcMotorEx shoota;
+    public DcMotor intake;
+    public DcMotor transfer;
+    public Servo gate;
+    double shootaPowwa;
+    double shootaSpeedy = 1550;
+    double F = 12.0;
+    double P = 0.85;
+
+    //pew pew go code heheheh :]
+
+
+
 
     private Follower follower;
 
@@ -29,7 +52,7 @@ public class AutoFar extends LinearOpMode {
     private final Pose path1 = poseFactory.of(74.5442, 48.094, 90);
     private final Pose point2 = poseFactory.of(74.3091, 102.0313, 90.2497);
     private final Pose point3Start = poseFactory.of(74.3091, 102.0313, 90);
-    private final Pose point3 = poseFactory.of(86.5028, 117.3447, 270);
+    private final Pose point3 = poseFactory.of(84.2194, 116.6268, 270);
     private final Pose point4 = poseFactory.of(101.6068, 117.6382, 270);
     private final Pose point5 = poseFactory.of(102.3034, 25.2051, -89.5682);
     private final Pose point6 = poseFactory.of(132.6168, 24.2778, 270);
@@ -40,6 +63,9 @@ public class AutoFar extends LinearOpMode {
                 follow(follower, path1()),
                 follow(follower, path2()),
                 follow(follower, path3()),
+                shooterOn(),
+                shooterFire(),
+                shooterStop(),
                 follow(follower, path4()),
                 follow(follower, path5()),
                 follow(follower, path6())
@@ -59,6 +85,25 @@ public class AutoFar extends LinearOpMode {
         while (opModeIsActive()) {
             follower.update();
             Scheduler.execute();
+            intake = hardwareMap.get(DcMotor.class, "intakeMotor");
+            intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+
+            transfer = hardwareMap.get(DcMotor.class, "transferMotor");
+            transfer.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            transfer.setDirection(DcMotor.Direction.REVERSE);
+
+
+            shoota = hardwareMap.get(DcMotorEx.class, "shoota");
+            shoota.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            shoota.setDirection(DcMotor.Direction.FORWARD);
+            PIDFCoefficients shootaPID = new PIDFCoefficients(P, 0, 0, F);
+            shoota.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, shootaPID);
+
+
+
+            gate = hardwareMap.get(Servo.class, "gateServo");
+
 
             telemetry.addData("x", follower.pose().x());
             telemetry.addData("y", follower.pose().y());
@@ -85,6 +130,38 @@ public class AutoFar extends LinearOpMode {
         return Paths.line(point3Start, point3).linear(point3Start, point3);
     }
 
+
+    private Command shooterOn() {
+        return sequential(
+                instant(() -> {
+                    shootaPowwa = shootaSpeedy;
+                    shoota.setVelocity(shootaPowwa);
+                }),
+                waitMs(2000)
+        );
+    }
+    private Command shooterFire() {
+        return sequential(
+                instant(() -> {
+                    transfer.setPower(0.7);
+                    intake.setPower(0.7);
+                    gate.setPosition(0.25);
+                }),
+                waitMs(4000)
+        );
+    }
+    private Command shooterStop() {
+        return sequential(
+                instant(() -> {
+                    shootaPowwa = 0;
+                    shoota.setVelocity(shootaPowwa);
+                    transfer.setPower(0.0);
+                    intake.setPower(0.0);
+                    gate.setPosition(0.62);
+                }),
+                waitMs(100)
+        );
+    }
     public Path path4() {
         return Paths.line(point3, point4).constant(point4);
     }
