@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import com.pedropathing.follower.Follower;
+import com.pedropathing.math.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +12,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
+import org.firstinspires.ftc.teamcode.pedro.Constants;
+import com.pedropathing.drivetrain.DrivePowers;
+import com.pedropathing.follower.ManualDrive;
 
 
 @TeleOp
@@ -45,14 +50,11 @@ public class teleMain extends OpMode {
 
 
 
-
-
-
-
     double F = 11.6;
     double P = 0;
     double[] stepsizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
     int stepindex = 1;
+    private Follower follower;
 
 
     @Override
@@ -102,7 +104,7 @@ public class teleMain extends OpMode {
 
         gate = hardwareMap.get(Servo.class, "gateServo");
 
-
+        follower = Constants.create(hardwareMap);
     }
 
 
@@ -243,6 +245,14 @@ public class teleMain extends OpMode {
         double shootaError = shootaPowwa - curShootaPowwa;
 
 
+        if (gamepad1.dpadUpWasPressed()) {
+            Pose cornerPose = new Pose(8.5, 133, Math.toRadians(90));
+            follower.setPose(cornerPose); // overrides our pose
+        }
+
+        follower.update();
+        Pose robotPose = follower.pose();
+
         telemetry.addData("target powwa", shootaPowwa);
         telemetry.addData("current powwa", "%.2f", curShootaPowwa);
         telemetry.addData("Error", "%.2f", shootaError);
@@ -256,6 +266,9 @@ public class teleMain extends OpMode {
         telemetry.addData("transfer speed", transferPower);
         telemetry.addLine("-----------------------------------");
         telemetry.addData("transfer over current", transfer.getCurrent(CurrentUnit.AMPS));
+        telemetry.addData("Robot X", robotPose.x());
+        telemetry.addData("Robot Y", robotPose.y());
+        telemetry.addData("Robot Heading", Math.toDegrees(robotPose.heading()));
         telemetry.update();
     }
 }

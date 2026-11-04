@@ -8,6 +8,7 @@ A collective way we can write code ideas and resources all in one place(the read
  - Coordinate system "https://pedropathing.com/docs/pathing/reference/coordinates"
  - Visualizer "https://visualizer.pedropathing.com/"
  - Auto Tuner "http://192.168.43.1:10158"
+ - TeleOp "https://pedropathing.com/docs/pathing/guide/teleop-usage"
 
 ### Other 
  - Panels Dashboard "http://192.168.43.1:8081"
