@@ -19,14 +19,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
 
-
-
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
 import com.qualcomm.robotcore.hardware.Servo;
 
 
@@ -43,21 +39,10 @@ public class AutoClose extends LinearOpMode {
     public DcMotor intake;
     public DcMotor transfer;
     public Servo gate;
-    double vertical;
-    double horizontal;
-    double pivot;
-    boolean takeIn;
-    boolean takeOut;
     double shootaPowwa;
     double shootaSpeedy = 1550;
-    double b_l_drivePower;
-    double b_r_drivePower;
-    double f_l_drivePower;
-    double f_r_drivePower;
-    double maxDriveSpeed = 1.0;
-    double intakePower;
-    double transferPower;
-    double gatePosition;
+    double F = 12.6;
+    double P = 0;
 
 
     private Follower follower;
@@ -106,6 +91,8 @@ public class AutoClose extends LinearOpMode {
         shoota = hardwareMap.get(DcMotorEx.class, "shoota");
         shoota.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         shoota.setDirection(DcMotor.Direction.FORWARD);
+        PIDFCoefficients shootaPID = new PIDFCoefficients(P, 0, 0, F);
+        shoota.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, shootaPID);
 
 
 
@@ -153,11 +140,11 @@ public class AutoClose extends LinearOpMode {
     private Command shooterFire() {
         return sequential(
                 instant(() -> {
-                    transfer.setPower(1.0);
-                    intake.setPower(1.0);
+                    transfer.setPower(0.7);
+                    intake.setPower(0.7);
                     gate.setPosition(0.25);
                 }),
-                waitMs(10000)
+                waitMs(4000)
         );
     }
     private Command shooterStop() {
