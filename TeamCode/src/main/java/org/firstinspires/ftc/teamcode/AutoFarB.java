@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static com.pedropathing.api.Paths.*;
 import com.pedropathing.api.Paths;
 
 import com.pedropathing.api.PoseFactory;
@@ -27,8 +26,8 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@Autonomous(name = "AutoPath", group = "Autonomous")
-public class AutoFar extends LinearOpMode {
+@Autonomous(name = "AutoFarB", group = "Autonomous")
+public class AutoFarB extends LinearOpMode {
 
     public DcMotorEx shoota;
     public DcMotor intake;
@@ -54,8 +53,8 @@ public class AutoFar extends LinearOpMode {
     private final Pose point3Start = poseFactory.of(74.3091, 102.0313, 90);
     private final Pose point3 = poseFactory.of(84.2194, 116.6268, 270);
     private final Pose point4 = poseFactory.of(101.6068, 117.6382, 270);
-    private final Pose point5 = poseFactory.of(102.3034, 25.2051, -89.5682);
-    private final Pose point6 = poseFactory.of(132.6168, 24.2778, 270);
+    private final Pose point5 = poseFactory.of(118.7536, 47.0527, -90.2553);
+    private final Pose point6 = poseFactory.of(133.5071, 47.2521, -179.2256);
 
     // Autonomous routine
     public Command autoRoutine() {
