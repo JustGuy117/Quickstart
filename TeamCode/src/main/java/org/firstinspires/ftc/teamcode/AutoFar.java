@@ -115,6 +115,10 @@ public class AutoFar extends LinearOpMode {
             }
 
             telemetry.update();
+
+            isStopRequested();
+            OpModeStorage.autonomousEndPose = follower.pose();
+
         }
     }
 

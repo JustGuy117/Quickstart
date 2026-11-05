@@ -105,6 +105,8 @@ public class teleMain extends OpMode {
         gate = hardwareMap.get(Servo.class, "gateServo");
 
         follower = Constants.create(hardwareMap);
+        follower.setPose(OpModeStorage.autonomousEndPose);
+        follower.update();
     }
 
 
