@@ -108,6 +108,7 @@ public class AutoClose extends LinearOpMode {
 
 
             follower.update();
+            OpModeStorage.autonomousEndPose = follower.pose();
             Scheduler.execute();
 
             telemetry.addData("x", follower.pose().x());
@@ -122,8 +123,6 @@ public class AutoClose extends LinearOpMode {
 
             telemetry.update();
 
-            isStopRequested();
-            OpModeStorage.autonomousEndPose = follower.pose();
 
         }
     }

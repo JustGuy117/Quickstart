@@ -114,9 +114,9 @@ public class teleMain extends OpMode {
     public void loop() {
 
 
-        vertical = gamepad1.left_stick_y;
-        horizontal = gamepad1.left_stick_x;
-        pivot = gamepad1.right_stick_x;
+        vertical = -gamepad1.left_stick_y;
+        horizontal = -gamepad1.left_stick_x;
+        pivot = -gamepad1.right_stick_x;
         takeIn = gamepad1.right_bumper;
         takeOut = gamepad1.left_bumper;
 

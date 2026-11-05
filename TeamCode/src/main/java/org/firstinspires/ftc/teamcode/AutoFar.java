@@ -84,6 +84,7 @@ public class AutoFar extends LinearOpMode {
 
         while (opModeIsActive()) {
             follower.update();
+            OpModeStorage.autonomousEndPose = follower.pose();
             Scheduler.execute();
             intake = hardwareMap.get(DcMotor.class, "intakeMotor");
             intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -116,8 +117,6 @@ public class AutoFar extends LinearOpMode {
 
             telemetry.update();
 
-            isStopRequested();
-            OpModeStorage.autonomousEndPose = follower.pose();
 
         }
     }
