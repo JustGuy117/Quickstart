@@ -58,6 +58,7 @@ public class teleMain extends OpMode {
 
     double F = 12.0;
     double P = 0.9;
+
     double[] stepsizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
     int stepindex = 1;
     private Follower follower;
