@@ -49,9 +49,15 @@ public class teleMain extends OpMode {
 
 
 
+    public Servo flowerMech;
+    double flowerMDown = 0.95;
+    double flowerMUp = 0.5;
+    double flowerMFullUp = 0.25;
+    double flowerMCur = flowerMUp;
 
-    double F = 11.6;
-    double P = 0;
+
+    double F = 12.0;
+    double P = 0.9;
     double[] stepsizes = {10.0, 1.0, 0.1, 0.001, 0.0001};
     int stepindex = 1;
     private Follower follower;
@@ -104,6 +110,8 @@ public class teleMain extends OpMode {
 
         gate = hardwareMap.get(Servo.class, "gateServo");
 
+        flowerMech = hardwareMap.get(Servo.class, "flowerServo");
+
         follower = Constants.create(hardwareMap);
         follower.setPose(OpModeStorage.autonomousEndPose);
         follower.update();
@@ -120,7 +128,18 @@ public class teleMain extends OpMode {
         takeIn = gamepad1.right_bumper;
         takeOut = gamepad1.left_bumper;
 
-
+        if (gamepad1.dpadRightWasPressed()){
+            if (flowerMCur == flowerMUp || flowerMCur == flowerMFullUp) {
+                flowerMCur = flowerMDown;
+            }
+            else {
+                flowerMCur = flowerMUp;
+            }
+        }
+        if (gamepad1.dpadLeftWasPressed()) {
+            flowerMCur = flowerMFullUp;
+        }
+        flowerMech.setPosition(flowerMCur);
 
 
 
