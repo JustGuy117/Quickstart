@@ -21,6 +21,10 @@ import com.pedropathing.follower.ManualDrive;
 public class teleMain extends OpMode {
 
 
+    robotConstats rConstats = new robotConstats();
+
+
+
     public DcMotor b_l_drive;
     public DcMotor b_r_drive;
     public DcMotor f_l_drive;
@@ -39,7 +43,7 @@ public class teleMain extends OpMode {
 
     private Follower follower;
 
-    private robotConstats rConstats;
+
 
 
     @Override
